@@ -28,11 +28,11 @@ namespace EmployeeManagement.Controllers
             return View(model);
         }
 
-        public IActionResult Details(int employeeId)
+        public IActionResult Details(int id)
         {
             HomeIndexViewModel homeIndexViewModel = new HomeIndexViewModel()
             {
-                Employee = _employeeRepository.GetById(employeeId),
+                Employee = _employeeRepository.GetById(id),
                 PageTitle = "Welcome From Details"
             };
 
