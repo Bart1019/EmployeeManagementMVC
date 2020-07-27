@@ -11,5 +11,6 @@ namespace EmployeeManagement.Domain.Models
         public string Surname { get; set; }
         public string EmailAddress { get; set; }
         public string Department { get; set; }
+        public Enum GenderType { get; set; }
     }
 }

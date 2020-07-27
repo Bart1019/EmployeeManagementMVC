@@ -15,9 +15,9 @@ namespace EmployeeManagement.Infrastructure.Repositories
         {
             _employees = new List<Employee>
             {
-                new Employee() { Id = 0, Name = "Bartek", Surname = "Runowski", EmailAddress = "bart1019@gmail.com", Department = "IT" },
-                new Employee() { Id = 1, Name = "Adam", Surname = "Suliborski", EmailAddress = "adam1019@gmail.com", Department = "HR" },
-                new Employee() { Id = 2, Name = "Roman", Surname = "Klichy", EmailAddress = "rom1019@gmail.com", Department = "IT" },
+                new Employee() { Id = 0, Name = "Bartek", Surname = "Runowski", EmailAddress = "bart1019@gmail.com", Department = "IT", GenderType = GenderType.Male},
+                new Employee() { Id = 1, Name = "Adam", Surname = "Suliborski", EmailAddress = "adam1019@gmail.com", Department = "HR", GenderType = GenderType.Male},
+                new Employee() { Id = 2, Name = "Ania", Surname = "Klichy", EmailAddress = "rom1019@gmail.com", Department = "IT", GenderType = GenderType.Female},
             };
         }
         public IEnumerable<Employee> GetAllEmployees()
