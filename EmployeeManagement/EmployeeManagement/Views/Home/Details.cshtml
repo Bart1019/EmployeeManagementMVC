@@ -1,4 +1,5 @@
-﻿@model HomeIndexViewModel
+﻿@using EmployeeManagement.Infrastructure
+@model HomeIndexViewModel
 
 @{
     ViewData["Title"] = "Details Page";
@@ -12,7 +13,8 @@
                 </div>
 
                 <div class="card-body text-center">
-                    <img class="img-thumbnail" src="~/images/profile.jpg"/>
+
+                        <img class="img-thumbnail" src="~/images/profile.jpg"/>
 
                     <h4>Employee ID : @Model.Employee.Id</h4>
                     <h4>Email : @Model.Employee.EmailAddress</h4>
@@ -20,7 +22,7 @@
 
                 </div>
                 <div class="card-footer text-center">
-                    <a href="#" class="btn btn-primary">Back</a>
+                    <a asp-controller="Home", asp-action="Index" class="btn btn-primary">Back</a>
                     <a href="#" class="btn btn-primary">Edit</a>
                     <a href="#" class="btn btn-danger">Delete</a>
                 </div>
