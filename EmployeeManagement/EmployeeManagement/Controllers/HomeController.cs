@@ -8,17 +8,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using EmployeeManagement.Models;
 using EmployeeManagement.Application.ViewModels;
+using EmployeeManagement.Domain.Models;
 
 namespace EmployeeManagement.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IEmployeeRepository _employeeRepository;
 
-        public HomeController(ILogger<HomeController> logger, IEmployeeRepository employeeRepository)
+        public HomeController(IEmployeeRepository employeeRepository)
         {
-            _logger = logger;
             _employeeRepository = employeeRepository;
         }
 
@@ -37,6 +36,21 @@ namespace EmployeeManagement.Controllers
             };
 
             return View(homeIndexViewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public IActionResult Create(Employee employee)
+        {
+            if (!ModelState.IsValid) return View();
+            var newlyCreatedEmployee = _employeeRepository.AddEmployee(employee);
+            return RedirectToAction("Details", new { id = newlyCreatedEmployee.Id });
+
         }
 
         public IActionResult Privacy()

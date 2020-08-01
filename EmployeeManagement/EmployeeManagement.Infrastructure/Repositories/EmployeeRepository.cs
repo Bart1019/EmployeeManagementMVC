@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using EmployeeManagement.Domain;
 using EmployeeManagement.Domain.Models;
 
@@ -16,9 +17,9 @@ namespace EmployeeManagement.Infrastructure.Repositories
         {
             _employees = new List<Employee>
             {
-                new Employee() { Id = 0, Name = "Bartek", Surname = "Runowski", EmailAddress = "bart1019@gmail.com", Department = "IT", GenderType = Gender.Male},
-                new Employee() { Id = 1, Name = "Adam", Surname = "Suliborski", EmailAddress = "adam1019@gmail.com", Department = "HR", GenderType = Gender.Male},
-                new Employee() { Id = 2, Name = "Ania", Surname = "Klichy", EmailAddress = "rom1019@gmail.com", Department = "IT", GenderType = Gender.Female},
+                new Employee() { Id = 0, Name = "Bartek", Surname = "Runowski", EmailAddress = "bart1019@gmail.com", Department = Department.IT, GenderType = Gender.Male},
+                new Employee() { Id = 1, Name = "Adam", Surname = "Suliborski", EmailAddress = "adam1019@gmail.com", Department = Department.HR, GenderType = Gender.Male},
+                new Employee() { Id = 2, Name = "Ania", Surname = "Klichy", EmailAddress = "rom1019@gmail.com", Department = Department.IT, GenderType = Gender.Female},
             };
         }
         public IEnumerable<Employee> GetAllEmployees()
@@ -29,6 +30,13 @@ namespace EmployeeManagement.Infrastructure.Repositories
         public Employee GetById(int employeeId)
         {
             return _employees.FirstOrDefault(x => x.Id == employeeId);
+        }
+
+        public Employee AddEmployee(Employee employee)
+        {
+           employee.Id = _employees.Max(x => x.Id) + 1;
+           _employees.Add(employee);
+           return employee;
         }
     }
 }
