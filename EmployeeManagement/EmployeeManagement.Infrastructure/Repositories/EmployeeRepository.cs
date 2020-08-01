@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EmployeeManagement.Domain;
 using EmployeeManagement.Domain.Models;
 
 namespace EmployeeManagement.Infrastructure.Repositories
@@ -15,9 +16,9 @@ namespace EmployeeManagement.Infrastructure.Repositories
         {
             _employees = new List<Employee>
             {
-                new Employee() { Id = 0, Name = "Bartek", Surname = "Runowski", EmailAddress = "bart1019@gmail.com", Department = "IT", GenderType = GenderType.Male},
-                new Employee() { Id = 1, Name = "Adam", Surname = "Suliborski", EmailAddress = "adam1019@gmail.com", Department = "HR", GenderType = GenderType.Male},
-                new Employee() { Id = 2, Name = "Ania", Surname = "Klichy", EmailAddress = "rom1019@gmail.com", Department = "IT", GenderType = GenderType.Female},
+                new Employee() { Id = 0, Name = "Bartek", Surname = "Runowski", EmailAddress = "bart1019@gmail.com", Department = "IT", GenderType = Gender.Male},
+                new Employee() { Id = 1, Name = "Adam", Surname = "Suliborski", EmailAddress = "adam1019@gmail.com", Department = "HR", GenderType = Gender.Male},
+                new Employee() { Id = 2, Name = "Ania", Surname = "Klichy", EmailAddress = "rom1019@gmail.com", Department = "IT", GenderType = Gender.Female},
             };
         }
         public IEnumerable<Employee> GetAllEmployees()

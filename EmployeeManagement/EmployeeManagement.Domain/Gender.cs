@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EmployeeManagement.Infrastructure
+namespace EmployeeManagement.Domain
 {
-    public enum GenderType
+    public enum Gender
     { 
         Male,
         Female
