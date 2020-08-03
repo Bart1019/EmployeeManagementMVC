@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using EmployeeManagement.Domain;
 using EmployeeManagement.Domain.Models;
 
@@ -37,6 +38,35 @@ namespace EmployeeManagement.Infrastructure.Repositories
            employee.Id = _employees.Max(x => x.Id) + 1;
            _employees.Add(employee);
            return employee;
+        }
+
+        public Employee UpdateEmployee(Employee employee)
+        {
+            var updatedEmployee = _employees.FirstOrDefault(x => x.Id == employee.Id);
+
+            if (updatedEmployee != null)
+            {
+                updatedEmployee.Id = employee.Id;
+                updatedEmployee.Name = employee.Name;
+                updatedEmployee.Surname = employee.Surname;
+                updatedEmployee.EmailAddress = employee.EmailAddress;
+                updatedEmployee.Department = employee.Department;
+                updatedEmployee.GenderType = employee.GenderType;
+            }
+
+            return updatedEmployee;
+        }
+
+        public Employee DeleteEmployee(int employeeId)
+        {
+            var deleteEmployee = _employees.FirstOrDefault(x => x.Id == employeeId);
+
+            if (deleteEmployee != null)
+            {
+                _employees.Remove(deleteEmployee);
+            }
+
+            return deleteEmployee;
         }
     }
 }
