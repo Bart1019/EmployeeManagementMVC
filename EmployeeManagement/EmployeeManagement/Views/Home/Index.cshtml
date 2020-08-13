@@ -8,16 +8,18 @@
 <div class="card-deck">
     @foreach (var employee in Model)
     {
-        <div class="card m-3">
+        var photoPath = "~/images/" + (employee.PhotoPath ?? "profile.jpg");
+        <div class="card m-3" style="min-width: 18rem; max-width: 30.5%;">
             <div class="card-header">
                 <h4>@employee.Name</h4>
+
             </div>
 
-            <img class="card-img-top" src="~/images/profile.jpg" asp-append-version="true"/>
+            <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
            
             <div class="card-footer text-center">
                 <a asp-controller="Home" asp-action="Details" asp-route-id="@employee.Id" class="btn btn-primary m-1" >View</a>
-                <a href="#" class="btn btn-primary m-1">Edit</a>
+                <a asp-controller="Home" asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-primary m-1">Edit</a>
                 <a href="#" class="btn btn-danger m-1">Delete</a>
             </div>
         </div>

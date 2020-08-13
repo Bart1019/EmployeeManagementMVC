@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EmployeeManagement.Application.ViewModels
 {
-    public class HomeIndexViewModel
+    public class HomeDetailsViewModel
     {
         public Employee Employee { get; set; }
         public string PageTitle { get; set; }
