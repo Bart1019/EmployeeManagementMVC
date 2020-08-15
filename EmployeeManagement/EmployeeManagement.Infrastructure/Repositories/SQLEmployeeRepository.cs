@@ -17,7 +17,7 @@ namespace EmployeeManagement.Infrastructure.Repositories
             _employeeDbContext = employeeDbContext;
         }
 
-        public IEnumerable<Employee> GetAllEmployees()
+        public IQueryable <Employee> GetAllEmployees()
         {
             return _employeeDbContext.Employees;
         }
