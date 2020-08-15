@@ -8,6 +8,7 @@ using EmployeeManagement.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,14 @@ namespace EmployeeManagement
         {
             services.AddDbContextPool<EmployeeDbContext>(options => options.UseSqlServer(_configuration.GetConnectionString("EmployeeDbConnection")));
 
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+                {
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequiredLength = 5;
+                }).AddEntityFrameworkStores<EmployeeDbContext>();
+
             services.AddControllersWithViews();
+
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
         }
 
@@ -49,9 +57,12 @@ namespace EmployeeManagement
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
