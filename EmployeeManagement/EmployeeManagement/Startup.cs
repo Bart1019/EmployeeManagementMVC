@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using EmployeeManagement.Domain.Interfaces;
 using EmployeeManagement.Infrastructure;
 using EmployeeManagement.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
@@ -34,9 +36,17 @@ namespace EmployeeManagement
                 {
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequiredLength = 5;
+
                 }).AddEntityFrameworkStores<EmployeeDbContext>();
 
             services.AddControllersWithViews();
+
+            services.AddMvc(config =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                config.Filters.Add(new AuthorizeFilter(policy));
+
+            }).AddXmlSerializerFormatters();
 
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
         }

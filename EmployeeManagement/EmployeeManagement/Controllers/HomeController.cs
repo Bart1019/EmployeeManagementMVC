@@ -10,10 +10,12 @@ using Microsoft.Extensions.Logging;
 using EmployeeManagement.Models;
 using EmployeeManagement.Application.ViewModels;
 using EmployeeManagement.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 
 namespace EmployeeManagement.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IEmployeeRepository _employeeRepository;
@@ -25,12 +27,14 @@ namespace EmployeeManagement.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var model = _employeeRepository.GetAllEmployees();
             return View(model);
         }
 
+        [AllowAnonymous]
         public IActionResult Details(int id)
         {
             Employee employee = _employeeRepository.GetById(id);
