@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace EmployeeManagement.Application.ViewModels
 {
@@ -10,6 +12,7 @@ namespace EmployeeManagement.Application.ViewModels
         [Display(Name = "Email Address")]
         [Required]
         [EmailAddress]
+        [Remote("IsEmailInUse", "Account")]
         public string EmailAddress { get; set; }
 
         [Required]
