@@ -136,6 +136,14 @@ namespace EmployeeManagement.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _employeeRepository.DeleteEmployee(id);
+
+            return RedirectToAction("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();

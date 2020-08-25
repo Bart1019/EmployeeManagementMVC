@@ -18,9 +18,11 @@
             <img class="card-img-top imageThumbnail" src="@photoPath" asp-append-version="true" />
            
             <div class="card-footer text-center">
-                <a asp-controller="Home" asp-action="Details" asp-route-id="@employee.Id" class="btn btn-primary m-1" >View</a>
-                <a asp-controller="Home" asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-primary m-1">Edit</a>
-                <a href="#" class="btn btn-danger m-1">Delete</a>
+                <form method="post">
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@employee.Id" class="btn btn-primary m-1">View</a>
+                    <a asp-controller="Home" asp-action="Edit" asp-route-id="@employee.Id" class="btn btn-primary m-1">Edit</a>
+                    <button asp-controller="Home" asp-action="Delete" asp-route-id="@employee.Id" class="btn btn-danger m-1">Delete</button>
+                </form>
             </div>
         </div>
     }
