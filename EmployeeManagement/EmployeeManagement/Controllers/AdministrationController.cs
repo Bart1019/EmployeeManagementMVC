@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeManagement.Controllers
 {
-    [Authorize(Roles = "Admin, User")]
+    [Authorize(Roles = "Admin")]
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -192,6 +192,13 @@ namespace EmployeeManagement.Controllers
             }
 
             return RedirectToAction("EditRoles", new { Id = roleId });
+        }
+
+        public IActionResult ListUsers()
+        {
+            var users = _userManager.Users;
+
+            return View(users);
         }
     }
 }
