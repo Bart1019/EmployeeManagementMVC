@@ -219,7 +219,7 @@ namespace EmployeeManagement.Controllers
             var model = new EditUserViewModel
            {
                Id = user.Id,
-               EmailAddress = user.Email,
+               Email = user.Email,
                UserName = user.UserName,
                Roles = userRoles.ToList(),
                Claims = userClaims.Select(c=>c.Value).ToList()
@@ -240,7 +240,7 @@ namespace EmployeeManagement.Controllers
                 return View("Error");
             }
 
-            user.Email = model.EmailAddress;
+            user.Email = model.Email;
             user.UserName = model.UserName;
 
             var result = await _userManager.UpdateAsync(user);

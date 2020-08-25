@@ -15,10 +15,12 @@ namespace EmployeeManagement.Application.ViewModels
         public string Id { get; set; }
 
         [Required]
-        public string EmailAddress { get; set; }
+        [Display(Name = "Email Address")]
+        public string Email { get; set; }
 
         [Required]
         [EmailAddress]
+        [Display(Name = "User Name")]
         public string UserName { get; set; }
 
         public List<string> Roles { get; set; }
