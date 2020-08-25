@@ -200,5 +200,63 @@ namespace EmployeeManagement.Controllers
 
             return View(users);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string id)
+        {
+           var user = await _userManager.FindByIdAsync(id);
+
+           if (user == null)
+           {
+               ViewBag.ErrorMessage = $"User of Id {id} cannot be found";
+
+               return View("Error");
+           }
+
+           var userRoles = await _userManager.GetRolesAsync(user);
+           var userClaims = await _userManager.GetClaimsAsync(user);
+
+            var model = new EditUserViewModel
+           {
+               Id = user.Id,
+               EmailAddress = user.Email,
+               UserName = user.UserName,
+               Roles = userRoles.ToList(),
+               Claims = userClaims.Select(c=>c.Value).ToList()
+           };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(EditUserViewModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.Id);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = $"User of Id {model.Id} cannot be found";
+
+                return View("Error");
+            }
+
+            user.Email = model.EmailAddress;
+            user.UserName = model.UserName;
+
+            var result = await _userManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("ListUsers");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
+
     }
 }

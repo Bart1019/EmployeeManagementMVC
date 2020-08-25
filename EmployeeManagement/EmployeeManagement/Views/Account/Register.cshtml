@@ -1,4 +1,5 @@
 ﻿@model RegisterViewModel
+@inject SignInManager<IdentityUser> SignInManager
 @{
     ViewData["Title"] = "User Registration";
 }
@@ -25,6 +26,14 @@
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary" style="width: auto">Register</button>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <a asp-controller="Administration" asp-action="ListUsers" class="btn btn-primary" style="width: auto">Cancel</a>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="Index" class="btn btn-primary" style="width: auto">Cancel</a>
+            }
         </form>
     </div>
 </div>
