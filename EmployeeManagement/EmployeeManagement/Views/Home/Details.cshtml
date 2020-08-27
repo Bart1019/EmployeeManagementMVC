@@ -6,30 +6,45 @@
     var photoPath = "~/images/" + (Model.Employee.PhotoPath ?? "profile.jpg");
 }
 
-    <div class="row justify-content-center m-3">
-        <div class="col-sm-8">
-            <div class="card">
-                <div class="card-header">
-                    <h1>@Model.Employee.Name</h1>
-                </div>
+<div class="row justify-content-center m-3">
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.Employee.Name</h1>
+            </div>
 
-                <div class="card-body text-center">
+            <div class="card-body text-center">
 
-                    <img class="card-img-top" src="@photoPath" asp-append-version="true" />
+                <img class="card-img-top" src="@photoPath" asp-append-version="true" width="300" height="600"/>
 
-                    <h4>Employee ID : @Model.Employee.Id</h4>
-                    <h4>Email : @Model.Employee.EmailAddress</h4>
-                    <h4>Department : @Model.Employee.Department</h4>
+                <h4>Employee ID : @Model.Employee.Id</h4>
+                <h4>Email : @Model.Employee.EmailAddress</h4>
+                <h4>Department : @Model.Employee.Department</h4>
 
-                </div>
-                <div class="card-footer text-center">
-                    <a asp-controller="Home", asp-action="Index" class="btn btn-primary">Back</a>
-                    <a asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Employee.Id" class="btn btn-primary m-1">Edit</a>
-                    <a href="#" class="btn btn-danger">Delete</a>
-                </div>
+            </div>
+            <div class="card-footer text-center">
+                <form method="post" asp-action="Delete" asp-route-id="@Model.Employee.Id">
+                    
+                    <span id="confirmDeleteSpan_@Model.Employee.Id" style="display: none">
+                        <span>Are you sure you want to delete?</span>
+                        <br /><br />
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                        <a href="#" class="btn btn-primary" onclick="confirmDelete('@Model.Employee.Id', false)">No</a>
+                    </span>
+
+                    <span id="deleteSpan_@Model.Employee.Id">
+                        <a asp-controller="Home" , asp-action="Index" class="btn btn-primary">Back</a>
+                        <a asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Employee.Id" class="btn btn-primary m-1">Edit</a>
+                        <a href="#" class="btn btn-danger" onclick="confirmDelete('@Model.Employee.Id', true)">Delete</a>
+                    </span>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-
+@section Scripts
+{
+    <script src="~/js/CustomScripts.js"></script>
+}
 
