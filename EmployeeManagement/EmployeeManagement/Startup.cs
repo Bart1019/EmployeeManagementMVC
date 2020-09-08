@@ -52,7 +52,7 @@ namespace EmployeeManagement
             services.AddAuthorization(options => options.AddPolicy("EditRolePolicy", policy => policy.RequireClaim("Edit Role")));
             services.AddAuthorization(options => options.AddPolicy("CreateRolePolicy", policy => policy.RequireClaim("Create Role")));
 
-            //services.AddAuthorization(options => options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin")));
+            services.AddAuthorization(options => options.AddPolicy("AdminRolePolicy", policy => policy.RequireRole("Admin", "User")));
 
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
 
