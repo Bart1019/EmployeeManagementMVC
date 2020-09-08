@@ -53,7 +53,13 @@ namespace EmployeeManagement
                 {
                     options.ClientId = "89150711082-70757ndcugsku8gq4gslv43rjjbg2isp.apps.googleusercontent.com";
                     options.ClientSecret = "4oO1wIJlUsYl6AQEiPKiA5wT";
+                })
+                .AddFacebook(options =>
+                {
+                    options.AppId = "807269850193908";
+                    options.AppSecret = "35affa720c10ae2fb1564b2240ad556a";
                 });
+                
 
             services.AddAuthorization(options => options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete Role")));
             services.AddAuthorization(options => options.AddPolicy("EditRolePolicy", policy => policy.RequireClaim("Edit Role")));
