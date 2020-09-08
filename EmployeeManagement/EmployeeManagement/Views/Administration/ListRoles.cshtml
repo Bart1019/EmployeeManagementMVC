@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<IdentityRole>
+
+@inject IAuthorizationService AuthorizationService
+
 @{
     ViewData["Title"] = "All Roles";
 }
@@ -7,15 +10,18 @@
 
 @if (Model.Any())
 {
-    <a asp-controller="Administration" asp-action="CreateRole" class="btn btn-primary mb-3" style="width: auto">Add new role</a>
+    @if ((await AuthorizationService.AuthorizeAsync(User, "CreateRolePolicy")).Succeeded)
+    {
+        <a asp-controller="Administration" asp-action="CreateRole" class="btn btn-primary mb-3" style="width: auto">Add new role</a>
+    }
 
     foreach (var role in Model)
     {
         <div class="card mb-3">
-            <div class ="card-header">
+            <div class="card-header">
                 Role id: @role.Id
             </div>
-            <div class =" card-body">
+            <div class=" card-body">
                 <h5 class="card-title">@role.Name</h5>
             </div>
             <div class="card-footer">
@@ -29,8 +35,15 @@
                     </span>
 
                     <span id="deleteSpan_@role.Id">
-                        <a asp-controller="Administration" asp-action="EditRoles" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
-                        <a href="#" class="btn btn-danger" onclick="confirmDelete('@role.Id', true)">Delete</a>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "EditRolePolicy")).Succeeded)
+                        {
+                            <a asp-controller="Administration" asp-action="EditRoles" asp-route-id="@role.Id" class="btn btn-primary">Edit</a>
+                        }
+
+                        @if ((await AuthorizationService.AuthorizeAsync(User, "DeleteRolePolicy")).Succeeded)
+                        {
+                            <a href="#" class="btn btn-danger" onclick="confirmDelete('@role.Id', true)">Delete</a>
+                        }
                     </span>
                 </form>
             </div>
@@ -47,7 +60,10 @@ else
             <h5 class="card-title">
                 Click below to create a new role
             </h5>
-            <a asp-controller ="Administration" asp-action ="CreateRole" class="btn btn-primary" style="width: auto">Create Role</a>
+            @if ((await AuthorizationService.AuthorizeAsync(User, "CreateRolePolicy")).Succeeded)
+            {
+                <a asp-controller="Administration" asp-action="CreateRole" class="btn btn-primary" style="width: auto">Create Role</a>
+            }
         </div>
     </div>
 }

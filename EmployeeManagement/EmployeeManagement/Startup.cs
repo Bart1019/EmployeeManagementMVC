@@ -48,7 +48,11 @@ namespace EmployeeManagement
 
             }).AddXmlSerializerFormatters();
 
-            services.AddAuthorization(options => options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("DeleteRole")));
+            services.AddAuthorization(options => options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete Role")));
+            services.AddAuthorization(options => options.AddPolicy("EditRolePolicy", policy => policy.RequireClaim("Edit Role")));
+            services.AddAuthorization(options => options.AddPolicy("CreateRolePolicy", policy => policy.RequireClaim("Create Role")));
+
+            //services.AddAuthorization(options => options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin")));
 
             services.AddScoped<IEmployeeRepository, SQLEmployeeRepository>();
 
