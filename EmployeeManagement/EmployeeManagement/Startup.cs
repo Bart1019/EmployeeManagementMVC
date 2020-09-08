@@ -48,6 +48,13 @@ namespace EmployeeManagement
 
             }).AddXmlSerializerFormatters();
 
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "89150711082-70757ndcugsku8gq4gslv43rjjbg2isp.apps.googleusercontent.com";
+                    options.ClientSecret = "4oO1wIJlUsYl6AQEiPKiA5wT";
+                });
+
             services.AddAuthorization(options => options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete Role")));
             services.AddAuthorization(options => options.AddPolicy("EditRolePolicy", policy => policy.RequireClaim("Edit Role")));
             services.AddAuthorization(options => options.AddPolicy("CreateRolePolicy", policy => policy.RequireClaim("Create Role")));
