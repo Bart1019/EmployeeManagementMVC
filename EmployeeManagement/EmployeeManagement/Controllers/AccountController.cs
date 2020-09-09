@@ -196,61 +196,84 @@ namespace EmployeeManagement.Controllers
             LoginViewModel loginViewModel = new LoginViewModel
             {
                 ReturnUrl = returnUrl,
-                ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
+                ExternalLogins =
+                (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList()
             };
 
             if (remoteError != null)
             {
-                ModelState
-                    .AddModelError(string.Empty, $"Error from external provider: {remoteError}");
+                ModelState.AddModelError(string.Empty,
+                    $"Error from external provider: {remoteError}");
 
                 return View("Login", loginViewModel);
             }
 
             var info = await _signInManager.GetExternalLoginInfoAsync();
-
             if (info == null)
             {
-                ModelState
-                    .AddModelError(string.Empty, "Error loading external login information.");
+                ModelState.AddModelError(string.Empty, "Error loading external login information.");
 
                 return View("Login", loginViewModel);
             }
 
-            var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false, true);
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            IdentityUser user = null;
+
+            if (email != null)
+            {
+                user = await _userManager.FindByEmailAsync(email);
+
+                if (user != null && !user.EmailConfirmed)
+                {
+                    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
+
+                    return View("Login", loginViewModel);
+                }
+            }
+
+            var signInResult = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
 
             if (signInResult.Succeeded)
             {
                 return LocalRedirect(returnUrl);
             }
-
-            var email =  info.Principal.FindFirstValue(ClaimTypes.Email);
-
-            if (email != null)
+            else
             {
-                var user = await _userManager.FindByEmailAsync(email);
-
-                if (user == null)
+                if (email != null)
                 {
-                    user = new IdentityUser
+                    if (user == null)
                     {
-                        UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
-                    };
+                        user = new IdentityUser
+                        {
+                            UserName = info.Principal.FindFirstValue(ClaimTypes.Email),
+                            Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        };
 
-                    await _userManager.CreateAsync(user);
+                        await _userManager.CreateAsync(user);
+
+                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                        var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
+
+                        _logger.Log(LogLevel.Warning, confirmationLink);
+
+                        ViewBag.ErrorTitle = "Registration successful";
+                        ViewBag.ErrorMessage = "Before you can Login, please confirm your " +
+                            "email, by clicking on the confirmation link we have emailed you";
+                        return View("RegisterSuccessful");
+                    }
+
+                    await _userManager.AddLoginAsync(user, info);
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    return LocalRedirect(returnUrl);
                 }
 
-                await _userManager.AddLoginAsync(user, info);
-                await _signInManager.SignInAsync(user, false);
+                ViewBag.ErrorTitle = $"Email claim not received from: {info.LoginProvider}";
+                ViewBag.ErrorMessage = "Please contact support on bart1019@gmail.com";
 
-                return LocalRedirect(returnUrl);
+                return View("Error");
             }
-
-            ViewBag.ErrorTitle = $"Email claim not received from: {info.LoginProvider}";
-            ViewBag.ErrorMessage = "Please contact support on bart1019@gmail.com";
-
-            return View("Error");
         }
     }
 }

@@ -6,11 +6,11 @@
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
 
-@*@if (Model.ShowRequestId)
+@if (Model.ShowRequestId)
 {
     <p>
         <strong>Request ID:</strong> <code>@Model.RequestId</code>
     </p>
-}*@
+}
 
 <a asp-controller="Home" asp-action="Index" class="btn btn-outline-danger" style="width: auto">Click here to go back to the main page </a>
