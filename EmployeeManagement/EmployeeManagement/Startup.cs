@@ -37,6 +37,7 @@ namespace EmployeeManagement
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequiredLength = 5;
 
+                    options.SignIn.RequireConfirmedEmail = true;
                 }).AddEntityFrameworkStores<EmployeeDbContext>();
 
             services.AddControllersWithViews();
