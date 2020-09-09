@@ -38,7 +38,9 @@ namespace EmployeeManagement
                     options.Password.RequiredLength = 5;
 
                     options.SignIn.RequireConfirmedEmail = true;
-                }).AddEntityFrameworkStores<EmployeeDbContext>();
+                })
+                .AddEntityFrameworkStores<EmployeeDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
 
