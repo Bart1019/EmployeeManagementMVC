@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using EmployeeManagement.Application.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -58,7 +59,7 @@ namespace EmployeeManagement.Controllers
 
                 if (result.Succeeded)
                 {
-                    var token = await _userManager.CreateSecurityTokenAsync(user);
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, token = token}, Request.Scheme);
 
@@ -84,6 +85,7 @@ namespace EmployeeManagement.Controllers
             return View(model);
         }
 
+        [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
@@ -101,6 +103,7 @@ namespace EmployeeManagement.Controllers
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
+
             if (result.Succeeded)
             {
                 return View();
@@ -133,11 +136,11 @@ namespace EmployeeManagement.Controllers
             {
                 var user = await _userManager.FindByEmailAsync(model.EmailAddress);
 
-                //if (user != null && !user.EmailConfirmed && await _userManager.CheckPasswordAsync(user, model.Password))
-                //{
-                //    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
-                //    return View(model);
-                //}
+                if (user != null && !user.EmailConfirmed && await _userManager.CheckPasswordAsync(user, model.Password))
+                {
+                    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
+                    return View(model);
+                }
 
                 var result = await _signInManager.PasswordSignInAsync(model.EmailAddress, model.Password, model.RememberMe, false);
 
