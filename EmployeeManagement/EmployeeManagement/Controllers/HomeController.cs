@@ -154,10 +154,8 @@ namespace EmployeeManagement.Controllers
                 uniqueFileName = Guid.NewGuid() + "_" + model.Photo.FileName;
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                using (FileStream fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    model.Photo.CopyTo(fileStream);
-                }
+                using FileStream fileStream = new FileStream(filePath, FileMode.Create);
+                model.Photo.CopyTo(fileStream);
             }
 
             return uniqueFileName;
