@@ -55,14 +55,12 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
         }
         
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
         public IActionResult Create(EmployeeCreateViewModel model)
         {
             if (ModelState.IsValid)
@@ -87,7 +85,6 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             Employee editedEmployee = _employeeRepository.GetById(id);
@@ -107,7 +104,6 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpPost]
-       // [Authorize(Roles = "Admin")]
         public IActionResult Edit(EmployeeEditViewModel model)
         {
             if (ModelState.IsValid)
@@ -141,7 +137,6 @@ namespace EmployeeManagement.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             _employeeRepository.DeleteEmployee(id);
