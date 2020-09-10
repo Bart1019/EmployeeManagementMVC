@@ -142,7 +142,7 @@ namespace EmployeeManagement.Controllers
                     return View(model);
                 }
 
-                var result = await _signInManager.PasswordSignInAsync(model.EmailAddress, model.Password, model.RememberMe, false);
+                var result = await _signInManager.PasswordSignInAsync(model.EmailAddress, model.Password, model.RememberMe, true);
 
                 if (result.Succeeded)
                 {
@@ -154,6 +154,11 @@ namespace EmployeeManagement.Controllers
                     {
                         return RedirectToAction("Index", "Home");
                     }
+                }
+
+                if (result.IsLockedOut)
+                {
+                    return View("AccountLocked");
                 }
 
                 ModelState.AddModelError(string.Empty, "Invalid login attempt");
