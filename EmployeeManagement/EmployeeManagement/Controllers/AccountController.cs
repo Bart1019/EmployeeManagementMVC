@@ -338,6 +338,11 @@ namespace EmployeeManagement.Controllers
 
                     if (result.Succeeded)
                     {
+                        if (await _userManager.IsLockedOutAsync(user))
+                        {
+                            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.UtcNow);
+                        }
+
                         return View("ResetPasswordConfirmation");
                     }
 
