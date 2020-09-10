@@ -1,9 +1,10 @@
-﻿@using EmployeeManagement.Infrastructure
+﻿@using EmployeeManagement.Domain
 @model HomeDetailsViewModel
 
 @{
     ViewData["Title"] = "Details Page";
     var photoPath = "~/images/" + (Model.Employee.PhotoPath ?? "profile.jpg");
+    var womenPhotoPath = "~/images/" + (Model.Employee.PhotoPath ?? "wprofile.jpg");
 }
 
 <div class="row justify-content-center m-3">
@@ -15,8 +16,14 @@
 
             <div class="card-body text-center">
 
-                <img class="card-img-top" src="@photoPath" asp-append-version="true" width="300" height="600"/>
-
+                @if (Model.Employee.GenderType == Gender.Male)
+                {
+                    <img class="card-img-top" src="@photoPath" asp-append-version="true" width="300" height="600" />
+                }
+                else
+                {
+                    <img class="card-img-top" src="@womenPhotoPath" asp-append-version="true" width="300" height="600" />
+                }
                 <h4>Employee ID : @Model.Employee.Id</h4>
                 <h4>Email : @Model.Employee.EmailAddress</h4>
                 <h4>Department : @Model.Employee.Department</h4>
