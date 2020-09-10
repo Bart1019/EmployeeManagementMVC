@@ -346,8 +346,17 @@ namespace EmployeeManagement.Controllers
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, token},
                         Request.Scheme);
 
-                    _logger.Log(LogLevel.Warning, confirmationLink);
-
+                    try
+                    {
+                        _logger.Log(LogLevel.Warning, confirmationLink);
+                    }
+                    catch (Exception e)
+                    {
+                        await _userManager.DeleteAsync(user);
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                    
                     if (_signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         return RedirectToAction("ListUsers", "Administration");
 
