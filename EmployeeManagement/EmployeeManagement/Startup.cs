@@ -42,6 +42,11 @@ namespace EmployeeManagement
                 .AddEntityFrameworkStores<EmployeeDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromHours(1); 
+            });
+
             services.AddControllersWithViews();
 
             services.AddMvc(config =>

@@ -61,7 +61,7 @@ namespace EmployeeManagement.Controllers
                 {
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, token = token}, Request.Scheme);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, token }, Request.Scheme);
 
                     _logger.Log(LogLevel.Warning, confirmationLink);
 
@@ -253,7 +253,7 @@ namespace EmployeeManagement.Controllers
 
                         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                        var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token = token }, Request.Scheme);
+                        var confirmationLink = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, token }, Request.Scheme);
 
                         _logger.Log(LogLevel.Warning, confirmationLink);
 
@@ -295,7 +295,7 @@ namespace EmployeeManagement.Controllers
                 {
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-                    var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = model.Email, token = token }, Request.Scheme);
+                    var passwordResetLink = Url.Action("ResetPassword", "Account", new { email = model.Email, token }, Request.Scheme);
 
                     _logger.Log(LogLevel.Warning, passwordResetLink);
 
