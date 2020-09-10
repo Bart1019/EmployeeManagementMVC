@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Net.Mail;
+using System.Text;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace EmployeeManagement.Controllers
 {
@@ -202,7 +205,16 @@ namespace EmployeeManagement.Controllers
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new {userId = user.Id, token},
                         Request.Scheme);
 
-                    _logger.Log(LogLevel.Warning, confirmationLink);
+                    try
+                    {
+                        BuildEmailTemplate("Email Confirmation link", $"Hello, thank you for your registration, in order to confirm it click in the link: {confirmationLink}", user.Email);
+                    }
+                    catch (Exception e)
+                    {
+                        await _userManager.DeleteAsync(user);
+                        Console.WriteLine(e);
+                        throw;
+                    }
 
                     ViewBag.ErrorTitle = "Registration successful";
                     ViewBag.ErrorMessage = "Before you can Login, please confirm your " +
@@ -244,7 +256,16 @@ namespace EmployeeManagement.Controllers
                     var passwordResetLink = Url.Action("ResetPassword", "Account", new {email = model.Email, token},
                         Request.Scheme);
 
-                    _logger.Log(LogLevel.Warning, passwordResetLink);
+                    try
+                    {
+                        BuildEmailTemplate("Password reset link", $"Hello, in order to reset your current password click the link: {passwordResetLink}", user.Email);
+                    }
+                    catch (Exception e)
+                    {
+                        await _userManager.DeleteAsync(user);
+                        Console.WriteLine(e);
+                        throw;
+                    }
 
                     return View("ForgotPasswordConfirmation");
                 }
@@ -348,7 +369,7 @@ namespace EmployeeManagement.Controllers
 
                     try
                     {
-                        _logger.Log(LogLevel.Warning, confirmationLink);
+                        BuildEmailTemplate("Email Confirmation link", $"Hello, thank you for your registration, in order to confirm it click in the link:{confirmationLink}", user.Email);
                     }
                     catch (Exception e)
                     {
@@ -409,6 +430,54 @@ namespace EmployeeManagement.Controllers
             }
 
             return View(model);
+        }
+
+        public static void BuildEmailTemplate(string subjectText, string bodyText, string sendTo)
+        {
+            string from, to, bcc, cc, subject, body;
+            from = "YourEmail@gmail.com";
+            to = sendTo.Trim();
+            bcc = "";
+            cc = "";
+            subject = subjectText;
+            StringBuilder sb = new StringBuilder();
+            
+            sb.Append(bodyText);
+            body = sb.ToString();
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(from);
+            mail.To.Add(new MailAddress(to));
+            if (!string.IsNullOrEmpty(bcc))
+            {
+                mail.Bcc.Add(new MailAddress(bcc));
+            }
+            if (!string.IsNullOrEmpty(cc))
+            {
+                mail.CC.Add(new MailAddress(cc));
+            }
+            mail.Subject = subject;
+            mail.Body = body;
+            mail.IsBodyHtml = true;
+            SendEmail(mail);
+        }
+
+        public static void SendEmail(MailMessage mail)
+        {
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.Credentials = new System.Net.NetworkCredential("your email - email@domain.com", "your email password");
+            try
+            {
+                client.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
