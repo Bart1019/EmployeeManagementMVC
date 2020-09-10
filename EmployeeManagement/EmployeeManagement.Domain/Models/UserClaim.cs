@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EmployeeManagement.Domain.Models
+﻿namespace EmployeeManagement.Domain.Models
 {
     public class UserClaim
     {

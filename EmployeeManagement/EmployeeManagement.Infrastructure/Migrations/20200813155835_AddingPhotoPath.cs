@@ -4,19 +4,19 @@ namespace EmployeeManagement.Infrastructure.Migrations
 {
     public partial class AddingPhotoPath : Migration
     {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<string>(
-                name: "PhotoPath",
-                table: "Employees",
-                nullable: true);
-        }
-
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "PhotoPath",
-                table: "Employees");
+                "PhotoPath",
+                "Employees");
+        }
+
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<string>(
+                "PhotoPath",
+                "Employees",
+                nullable: true);
         }
     }
 }

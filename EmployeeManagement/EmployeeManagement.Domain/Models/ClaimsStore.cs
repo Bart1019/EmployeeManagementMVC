@@ -1,8 +1,5 @@
-﻿using System;
-using System.Security;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Text;
 
 namespace EmployeeManagement.Domain.Models
 {

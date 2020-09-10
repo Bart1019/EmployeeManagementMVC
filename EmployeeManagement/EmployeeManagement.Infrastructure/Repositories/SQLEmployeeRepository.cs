@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using EmployeeManagement.Domain.Interfaces;
 using EmployeeManagement.Domain.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +14,7 @@ namespace EmployeeManagement.Infrastructure.Repositories
             _employeeDbContext = employeeDbContext;
         }
 
-        public IQueryable <Employee> GetAllEmployees()
+        public IQueryable<Employee> GetAllEmployees()
         {
             return _employeeDbContext.Employees;
         }
@@ -37,7 +34,7 @@ namespace EmployeeManagement.Infrastructure.Repositories
         public Employee UpdateEmployee(Employee employee)
         {
             var updatedEmployee = _employeeDbContext.Employees.Attach(employee);
-            updatedEmployee.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            updatedEmployee.State = EntityState.Modified;
             _employeeDbContext.SaveChanges();
 
             return employee;
@@ -52,7 +49,7 @@ namespace EmployeeManagement.Infrastructure.Repositories
                 _employeeDbContext.Employees.Remove(deletedEmployee);
                 _employeeDbContext.SaveChanges();
             }
-            
+
             return deletedEmployee;
         }
     }

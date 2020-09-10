@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
@@ -12,14 +7,9 @@ namespace EmployeeManagement
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static IHostBuilder CreateHostBuilder(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
-        }
-
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args).
-                ConfigureLogging((hostingContext, logging) =>
+            return Host.CreateDefaultBuilder(args).ConfigureLogging((hostingContext, logging) =>
                 {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
@@ -27,9 +17,12 @@ namespace EmployeeManagement
                     logging.AddEventSourceLogger();
                     logging.AddNLog();
                 })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+        }
+
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
     }
 }

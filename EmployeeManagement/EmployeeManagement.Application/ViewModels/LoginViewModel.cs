@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 using Microsoft.AspNetCore.Authentication;
 
 namespace EmployeeManagement.Application.ViewModels
@@ -13,16 +11,14 @@ namespace EmployeeManagement.Application.ViewModels
         [EmailAddress]
         public string EmailAddress { get; set; }
 
+        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Display(Name = "Remember Me")]
-        public bool RememberMe { get; set; }
+        [Display(Name = "Remember Me")] public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }
-
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
     }
 }

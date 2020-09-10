@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EmployeeManagement.Application.ViewModels
 {
     public class CreateRoleViewModel
     {
-        [Required]
-        [Display(Name = "Role")]
-        public string RoleName { get; set; }
+        [Required] [Display(Name = "Role")] public string RoleName { get; set; }
     }
 }
