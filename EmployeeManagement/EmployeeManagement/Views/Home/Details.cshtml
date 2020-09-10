@@ -1,5 +1,4 @@
-﻿@using EmployeeManagement.Domain
-@model HomeDetailsViewModel
+﻿@model HomeDetailsViewModel
 
 @{
     ViewData["Title"] = "Details Page";
@@ -18,11 +17,11 @@
 
                 @if (Model.Employee.GenderType == Gender.Male)
                 {
-                    <img class="card-img-top" src="@photoPath" asp-append-version="true" width="300" height="600" />
+                    <img class="card-img-top" src="@photoPath" asp-append-version="true" width="300" height="600"/>
                 }
                 else
                 {
-                    <img class="card-img-top" src="@womenPhotoPath" asp-append-version="true" width="300" height="600" />
+                    <img class="card-img-top" src="@womenPhotoPath" asp-append-version="true" width="300" height="600"/>
                 }
                 <h4>Employee ID : @Model.Employee.Id</h4>
                 <h4>Email : @Model.Employee.EmailAddress</h4>
@@ -31,10 +30,10 @@
             </div>
             <div class="card-footer text-center">
                 <form method="post" asp-action="Delete" asp-route-id="@Model.Employee.Id">
-                    
+
                     <span id="confirmDeleteSpan_@Model.Employee.Id" style="display: none">
                         <span>Are you sure you want to delete?</span>
-                        <br /><br />
+                        <br/><br/>
                         <button type="submit" class="btn btn-danger">Yes</button>
                         <a href="#" class="btn btn-primary" onclick="confirmDelete('@Model.Employee.Id', false)">No</a>
                     </span>
@@ -54,4 +53,3 @@
 {
     <script src="~/js/CustomScripts.js"></script>
 }
-
